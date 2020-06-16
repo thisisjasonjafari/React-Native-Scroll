@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 const App = () => {
 
-  const [masters] = useState([
+  const [masters,setMasters] = useState([
     { id: 1, fullname: "Jason Jafari" },
     { id: 2, fullname: "Sara RekabTalaei" },
     { id: 3, fullname: "Majid Bayati" },
@@ -26,31 +33,29 @@ const App = () => {
     { id: 20, fullname: "Kamal Fatemi" },
   ]);
 
+const deleteItem =id=>{
+  const filtered = masters.filter(m=> m.id !== id)
+  console.log(id);
+  setMasters(filtered)
+}
+
   return (
     <View style={styles.container}>
 
       <FlatList
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()} 
         data={masters}
         renderItem={({ item: m }) => (
-          <View key={m.id}>
+          <TouchableOpacity  onPress={()=>deleteItem(m.id)}   >
             <Text style={styles.card} >
               {m.fullname}
             </Text>
-          </View>
+
+          </TouchableOpacity>
         )}
       />
 
 
-      {/* <ScrollView>
-        {masters.map(master => (
-          <View key={master.id}>
-            <Text style={styles.card} >
-              {master.fullname}
-            </Text>
-          </View>
-        ))}
-      </ScrollView> */}
     </View>
   );
 }
